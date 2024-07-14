@@ -13,10 +13,18 @@ function App() {
     };
 
     const handleSearch = async () => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL;
+        console.log(backendUrl);
+
+        if (!backendUrl) {
+            setError('Backend URL is not defined. Please check your environment variables.');
+            return;
+        }
+
         if (videoUrl) {
-            setLoading(true); 
+            setLoading(true);
             try {
-                const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/convert`, { url: videoUrl });
+                const response = await axios.post(`${backendUrl}/convert`, { url: videoUrl });
                 setMp3Url(response.data.link);
                 console.log(response.data.link);
                 setError('');
