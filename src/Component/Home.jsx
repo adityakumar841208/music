@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function App() {
     const [videoUrl, setVideoUrl] = useState('');
-    const [mp3Url, setMp3Url] = useState('');
+    const [mp3Url, setMp3Url] = useState(''); // State to store the MP3 URL
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false); // State to track loading state
     const [downloadClicked, setDownloadClicked] = useState(false); // State to track download button click
@@ -14,25 +14,13 @@ function App() {
 
     const handleSearch = async () => {
         if (videoUrl) {
-            setLoading(true); // Start loading indicator
+            setLoading(true); 
             try {
-                const options = {
-                    method: 'GET',
-                    url: 'https://youtube-mp3-downloader2.p.rapidapi.com/ytmp3/ytmp3/custom/',
-                    params: {
-                        url: videoUrl,
-                        quality: '128'
-                    },
-                    headers: {
-                        'x-rapidapi-key': '2bc6463482mshda856378a9d6b35p178a9ejsn9f1ee30cb80b',
-                        'x-rapidapi-host': 'youtube-mp3-downloader2.p.rapidapi.com'
-                    }
-                };
-
-                const response = await axios.request(options);
-                setMp3Url(response.data.dlink);
+                const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/convert`, { url: videoUrl });
+                setMp3Url(response.data.link);
+                console.log(response.data.link);
                 setError('');
-                setDownloadClicked(true); // Set download clicked to true
+                setDownloadClicked(true);
             } catch (err) {
                 setError('Failed to fetch MP3 URL. Please check the video URL.');
                 setMp3Url('');
@@ -45,8 +33,10 @@ function App() {
         }
     };
 
-    const handleDownloadClick = () => {
-        setDownloadClicked(true);
+    const handleDownloadComplete = () => {
+        setDownloadClicked(false);
+        setVideoUrl(''); // Reset the videoUrl after download is complete
+        setMp3Url(''); // Reset the mp3Url after download is complete
     };
 
     return (
@@ -73,11 +63,11 @@ function App() {
                     </div>
                 )}
                 {error && <p className="text-red-500 mb-4">{error}</p>}
-                {mp3Url && !downloadClicked && ( // Render download button only if download not clicked
+                {mp3Url && downloadClicked && ( // Render download button only if download clicked and mp3Url is available
                     <a
                         href={mp3Url}
                         download
-                        onClick={handleDownloadClick}
+                        onClick={handleDownloadComplete}
                         className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
                     >
                         Download Audio
