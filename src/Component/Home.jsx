@@ -30,6 +30,7 @@ function App() {
                 setError('');
                 setDownloadClicked(true);
             } catch (err) {
+                console.log(err);
                 setError('Failed to fetch MP3 URL. Please check the video URL.');
                 setMp3Url('');
             } finally {
