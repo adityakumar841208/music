@@ -31,7 +31,7 @@ function App() {
                 setDownloadClicked(true);
             } catch (err) {
                 console.log(err);
-                setError(err);
+                setError('Unable to fetch data. Please try again');
                 setMp3Url('');
             } finally {
                 setLoading(false); // Stop loading indicator
