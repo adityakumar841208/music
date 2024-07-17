@@ -1,0 +1,12 @@
+[[redirects]]
+  from = "/convert"
+  to = "https://backendmusic.netlify.app/convert"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/convert"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://ytmuzic.netlify.app"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
