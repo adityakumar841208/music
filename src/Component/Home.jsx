@@ -31,7 +31,7 @@ function App() {
                 setDownloadClicked(true);
             } catch (err) {
                 console.log(err);
-                setError('Failed to fetch MP3 URL. Please check the video URL.');
+                setError(err);
                 setMp3Url('');
             } finally {
                 setLoading(false); // Stop loading indicator
