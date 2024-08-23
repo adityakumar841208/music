@@ -27,7 +27,6 @@ function App() {
                 const response = await axios.post(`${backendUrl}/convert`, { url: videoUrl });
                 setMp3Url(response.data.link);
                 console.log(response.data.link);
-                setError('Failed to fetch MP3 URL. Please check the video URL.');
                 setDownloadClicked(true);
             } catch (err) {
                 console.log(err);
